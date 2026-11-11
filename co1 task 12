@@ -1,0 +1,73 @@
+#include <stdio.h>
+
+#define PEAK_START 18
+#define PEAK_END 22
+
+int main(void)
+{
+    /* Input values */
+    long long normal_rate = 500;
+    long long fixed_charge = 5000;
+
+    int readings = 4;
+
+    int hours[] = {17, 18, 21, 22};
+
+    long long watt_hours[] = {
+        1000, 1000, 1000, 1000
+    };
+
+    long long total_energy_charge = 0;
+    long long total_bill;
+    int i;
+
+    printf("SMART METER ELECTRICITY BILLING\n");
+    printf("--------------------------------\n");
+
+    for (i = 0; i < readings; i++)
+    {
+        long long charge;
+
+        if (hours[i] >= PEAK_START &&
+            hours[i] < PEAK_END)
+        {
+            charge = watt_hours[i] *
+                     normal_rate * 120 / 100000;
+        }
+        else
+        {
+            charge = watt_hours[i] *
+                     normal_rate / 1000;
+        }
+
+        total_energy_charge += charge;
+
+        printf("\nReading %d\n", i + 1);
+        printf("Hour: %d\n", hours[i]);
+        printf("Consumption: %lld Wh\n",
+               watt_hours[i]);
+        printf("Charge: %lld paise\n", charge);
+    }
+
+    total_bill = total_energy_charge +
+                 fixed_charge;
+
+    printf("\n------------------------------\n");
+    printf("Total readings: %d\n", readings);
+
+    printf("Energy charge: Rs %lld.%02lld\n",
+           total_energy_charge / 100,
+           total_energy_charge % 100);
+
+    printf("Fixed charge: Rs %lld.%02lld\n",
+           fixed_charge / 100,
+           fixed_charge % 100);
+
+    printf("------------------------------\n");
+
+    printf("TOTAL BILL: Rs %lld.%02lld\n",
+           total_bill / 100,
+           total_bill % 100);
+
+    return 0;
+}
