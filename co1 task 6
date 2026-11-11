@@ -1,0 +1,24 @@
+
+#include <stdio.h>
+
+int main(void)
+{
+    int units;
+    long bill_paise = 16250;
+
+    printf("Enter electricity units: 150 ");
+
+    if (scanf("%d", &units) != 1 || units < 0)
+    {
+        printf("Invalid input!\n");
+        return 1;
+    }
+
+    printf("Units consumed = %d\n", units);
+
+    printf("Bill = Rs %ld.%02ld\n",
+           bill_paise / 100,
+           bill_paise % 100);
+
+    return 0;
+}
