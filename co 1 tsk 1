@@ -1,0 +1,68 @@
+#include <stdio.h>
+
+#define FIXED_CHARGE 5000L
+#define RATE1 0
+#define RATE2 225
+#define RATE3 450
+
+int main(void)
+{
+    /* Input values */
+    unsigned short previous_reading = 1200;
+    unsigned short current_reading = 1350;
+
+    unsigned int units;
+    long energy_charge = 0;
+    long total_bill;
+
+    /* Calculate electricity units */
+    units = (unsigned short)
+            (current_reading - previous_reading);
+
+    /* Calculate energy charge */
+    if (units <= 100)
+    {
+        energy_charge = (long)units * RATE1;
+    }
+    else if (units <= 200)
+    {
+        energy_charge =
+            100L * RATE1 +
+            (long)(units - 100) * RATE2;
+    }
+    else
+    {
+        energy_charge =
+            100L * RATE1 +
+            100L * RATE2 +
+            (long)(units - 200) * RATE3;
+    }
+
+    total_bill = energy_charge + FIXED_CHARGE;
+
+    /* Display electricity bill */
+    printf("GRAM JYOTHI ELECTRICITY BILLING\n");
+    printf("--------------------------------\n");
+
+    printf("Previous reading: %hu\n",
+           previous_reading);
+
+    printf("Current reading : %hu\n",
+           current_reading);
+
+    printf("Units consumed  : %u\n", units);
+
+    printf("Energy charge   : Rs %ld.%02ld\n",
+           energy_charge / 100,
+           energy_charge % 100);
+
+    printf("Fixed charge    : Rs 50.00\n");
+
+    printf("--------------------------------\n");
+
+    printf("TOTAL BILL      : Rs %ld.%02ld\n",
+           total_bill / 100,
+           total_bill % 100);
+
+    return 0;
+}
