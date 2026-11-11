@@ -1,0 +1,106 @@
+#include <stdio.h>
+
+#define SLAB1_UNITS 100
+#define SLAB2_UNITS 200
+
+#define RATE1_PAISE 0
+#define RATE2_PAISE 225
+#define RATE3_PAISE 450
+
+#define FIXED_CHARGE_PAISE 5000L
+
+typedef unsigned short meter_t;
+
+unsigned int consumption(meter_t previous,
+                         meter_t current)
+{
+    return (meter_t)(current - previous);
+}
+
+long compute_bill(unsigned int units)
+{
+    long bill = FIXED_CHARGE_PAISE;
+
+    if (units > SLAB1_UNITS)
+    {
+        unsigned int slab2;
+
+        if (units > SLAB2_UNITS)
+            slab2 = SLAB2_UNITS - SLAB1_UNITS;
+        else
+            slab2 = units - SLAB1_UNITS;
+
+        bill += (long)slab2 * RATE2_PAISE;
+    }
+
+    if (units > SLAB2_UNITS)
+    {
+        bill += (long)(units - SLAB2_UNITS)
+                * RATE3_PAISE;
+    }
+
+    return bill;
+}
+
+int main(void)
+{
+    meter_t previous, current;
+    unsigned int units;
+    long bill;
+
+    printf("================================\n");
+    printf(" GRAMA JYOTHI ELECTRICITY BILL\n");
+    printf("================================\n");
+
+    printf("Enter previous reading: 1200");
+
+    if (scanf("%hu", &previous) != 1)
+    {
+        printf("Invalid previous reading!\n");
+        return 1;
+    }
+
+    printf("Enter current reading:1350 ");
+
+    if (scanf("%hu", &current) != 1)
+    {
+        printf("Invalid current reading!\n");
+        return 1;
+    }
+
+    /* Reject a decrease that is not a valid rollover */
+    if (current < previous && previous < 65000)
+    {
+        printf("Invalid meter reading!\n");
+        return 1;
+    }
+
+    units = consumption(previous, current);
+
+    bill = compute_bill(units);
+
+    printf("\n--------- BILL DETAILS ---------\n");
+
+    printf("Previous reading : %u\n",
+           (unsigned)previous);
+
+    printf("Current reading  : %u\n",
+           (unsigned)current);
+
+    printf("Units consumed   : %u\n", units);
+
+    printf("Fixed charge     : Rs 50.00\n");
+
+    printf("Energy charge    : Rs %ld.%02ld\n",
+           (bill - FIXED_CHARGE_PAISE) / 100,
+           (bill - FIXED_CHARGE_PAISE) % 100);
+
+    printf("--------------------------------\n");
+
+    printf("TOTAL BILL       : Rs %ld.%02ld\n",
+           bill / 100, bill % 100);
+
+    printf("--------------------------------\n");
+
+    return 0;
+}
