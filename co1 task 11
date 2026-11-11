@@ -1,0 +1,65 @@
+#include <stdio.h>
+
+int main(void)
+{
+    int slab1 = 100;
+    int slab2 = 200;
+
+    int rate1 = 0;
+    int rate2 = 225;
+    int rate3 = 450;
+
+    long fixed_charge = 5000;
+
+    int units;
+    long energy_charge = 0;
+    long total_bill;
+
+    printf("GRAM JYOTHI ELECTRICITY BILLING\n");
+
+    printf("Enter units consumed: 150 ");
+
+    if (scanf("%d", &units) != 1 || units < 0)
+    {
+        printf("Invalid input!\n");
+        return 1;
+    }
+
+    if (units <= slab1)
+    {
+        energy_charge = (long)units * rate1;
+    }
+    else if (units <= slab2)
+    {
+        energy_charge =
+            (long)slab1 * rate1 +
+            (long)(units - slab1) * rate2;
+    }
+    else
+    {
+        energy_charge =
+            (long)slab1 * rate1 +
+            (long)(slab2 - slab1) * rate2 +
+            (long)(units - slab2) * rate3;
+    }
+
+    total_bill = fixed_charge + energy_charge;
+
+    printf("\n----- ELECTRICITY BILL -----\n");
+
+    printf("Units consumed: %d\n", units);
+
+    printf("Energy charge: Rs %ld.%02ld\n",
+           energy_charge / 100,
+           energy_charge % 100);
+
+    printf("Fixed charge: Rs %ld.%02ld\n",
+           fixed_charge / 100,
+           fixed_charge % 100);
+
+    printf("Total bill: Rs %ld.%02ld\n",
+           total_bill / 100,
+           total_bill % 100);
+
+    return 0;
+}
