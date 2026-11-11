@@ -1,0 +1,21 @@
+
+#include <stdio.h>
+
+int main(void)
+{
+    int a = 5, b = 2;
+
+    printf("Integer division = %d\n", a / b);
+
+    printf("Float division = %.2f\n",
+           (float)a / b);
+
+    printf("Integer result = %d\n", 5 / 2 * 2);
+
+    printf("Correct result = %.2f\n",
+           5.0 / 2 * 2);
+
+    printf("Float precision = %.20f\n", 0.1 + 0.2);
+
+    return 0;
+}
